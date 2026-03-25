@@ -1,0 +1,90 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Contact — {{ profile.name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container text-center">
+    <h1 class="page-title">Contact Me</h1>
+    <p class="page-subtitle">Let's connect!</p>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-5 justify-content-center">
+
+      <!-- Contact Info -->
+      <div class="col-lg-4">
+        <div class="contact-info-card">
+          <h4 class="mb-4">Get In Touch</h4>
+          {% if profile.email %}
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+            <div>
+              <p class="contact-label">Email</p>
+              <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+            </div>
+          </div>
+          {% endif %}
+          {% if profile.github %}
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="bi bi-github"></i></div>
+            <div>
+              <p class="contact-label">GitHub</p>
+              <a href="{{ profile.github }}" target="_blank">{{ profile.github }}</a>
+            </div>
+          </div>
+          {% endif %}
+          {% if profile.linkedin %}
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="bi bi-linkedin"></i></div>
+            <div>
+              <p class="contact-label">LinkedIn</p>
+              <a href="{{ profile.linkedin }}" target="_blank">View Profile</a>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-lg-7">
+        <div class="contact-form-card">
+          <h4 class="mb-4">Send a Message</h4>
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Name</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div class="text-danger small">{{ form.name.errors }}</div>{% endif %}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}<div class="text-danger small">{{ form.email.errors }}</div>{% endif %}
+              </div>
+              <div class="col-12">
+                <label class="form-label">Subject</label>
+                {{ form.subject }}
+                {% if form.subject.errors %}<div class="text-danger small">{{ form.subject.errors }}</div>{% endif %}
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message</label>
+                {{ form.message }}
+                {% if form.message.errors %}<div class="text-danger small">{{ form.message.errors }}</div>{% endif %}
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                  <i class="bi bi-send me-2"></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

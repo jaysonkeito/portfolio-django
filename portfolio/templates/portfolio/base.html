@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}My Portfolio{% endblock %}</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}" />
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+      <span class="brand-dot"></span>
+      {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">About</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'skills' %}active{% endif %}" href="{% url 'skills' %}">Skills</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'projects' %}active{% endif %}" href="{% url 'projects' %}">Projects</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'education' %}active{% endif %}" href="{% url 'education' %}">Education</a></li>
+        <li class="nav-item"><a class="nav-link btn-contact {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Messages ───────────────────────────────────────────────────────────── -->
+{% if messages %}
+<div class="alert-container">
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- ── Page Content ───────────────────────────────────────────────────────── -->
+{% block content %}{% endblock %}
+
+<!-- ── Footer ─────────────────────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container text-center">
+    <p class="mb-1">
+      {% if profile %}{{ profile.name }}{% else %}My Portfolio{% endif %}
+      &mdash; Built with Django &amp; Bootstrap
+    </p>
+    <div class="footer-links">
+      {% if profile and profile.github %}<a href="{{ profile.github }}" target="_blank"><i class="bi bi-github"></i></a>{% endif %}
+      {% if profile and profile.linkedin %}<a href="{{ profile.linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>{% endif %}
+      {% if profile and profile.facebook %}<a href="{{ profile.facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>{% endif %}
+      {% if profile and profile.email %}<a href="mailto:{{ profile.email }}"><i class="bi bi-envelope-fill"></i></a>{% endif %}
+    </div>
+    <small class="text-muted">&copy; {% now "Y" %} All rights reserved.</small>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% load static %}
+<script src="{% static 'portfolio/js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
