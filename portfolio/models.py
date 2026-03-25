@@ -21,14 +21,14 @@ class Profile(models.Model):
 
 class Skill(models.Model):
     CATEGORY_CHOICES = [
-        ('frontend', 'Frontend'),
-        ('backend', 'Backend'),
-        ('database', 'Database'),
-        ('tools', 'Tools & DevOps'),
-        ('other', 'Other'),
+        ('languages', 'Languages'),
+        ('frontend', 'Front-End'),
+        ('backend', 'Back-End Frameworks'),
+        ('databases', 'Databases'),
+        ('tools', 'Tools & Software'),
     ]
     name = models.CharField(max_length=100)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='other')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='languages')
     proficiency = models.IntegerField(default=80, help_text='Percentage 0-100')
     order = models.IntegerField(default=0)
 
