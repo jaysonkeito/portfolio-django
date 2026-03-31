@@ -58,13 +58,18 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
+            # Send email notification
+            send_mail(
+                subject=f"Portfolio Contact: {form.cleaned_data['subject']}",
+                message=f"From: {form.cleaned_data['name']} <{form.cleaned_data['email']}>\n\n{form.cleaned_data['message']}",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.EMAIL_HOST_USER],
+                fail_silently=False,
+            )
             messages.success(request, 'Your message has been sent successfully!')
             return redirect('contact')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
         form = ContactForm()
-    return render(request, 'portfolio/contact.html', {
-        'profile': profile,
-        'form': form,
-    })
+    return render(request, 'portfolio/contact.html', {'profile': profile, 'form': form})
