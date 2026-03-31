@@ -1,93 +1,85 @@
 {% extends 'portfolio/base.html' %}
-{% block title %}{{ profile.name }} — Portfolio{% endblock %}
+{% block title %}{{ profile.name|default:"Home" }}{% endblock %}
+{% block breadcrumb %}home.html{% endblock %}
+{% block sb_lang %}HTML{% endblock %}
 
 {% block content %}
+<code class="code-line"><span class="cm">&lt;!-- // Hello World — {{ profile.name|default:"Portfolio" }} ✦ --&gt;</span></code>
+<code class="code-line"><span class="cm">&lt;!-- // ITS 305-A — Django Portfolio Project --&gt;</span></code>
+<code class="code-line"></code>
 
-<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
-<section class="hero-section d-flex align-items-center">
-  <div class="hero-bg-shapes">
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-  </div>
-  <div class="container">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-7 hero-text" data-aos="fade-right">
-        <p class="hero-greeting">// Hello, I'm</p>
-        <h1 class="hero-name">{{ profile.name|default:"Your Name" }}</h1>
-        <p class="hero-tagline">{{ profile.tagline|default:"Aspiring Developer & Problem Solver" }}</p>
-        <div class="hero-cta d-flex gap-3 flex-wrap">
-          <a href="{% url 'projects' %}" class="btn btn-primary btn-lg">View Projects <i class="bi bi-arrow-right ms-1"></i></a>
-          <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg">Contact Me</a>
-        </div>
+<div class="hero-card">
+  <div class="hero-inner">
+    <div class="hero-text-col">
+      <div class="hero-name">{{ profile.name|default:"Jayson" }}<span class="cursor"></span></div>
+      <div class="hero-tagline"><span class="cm">// {{ profile.tagline|default:"Aspiring Developer & Problem Solver" }}</span></div>
+      <div class="hero-tagline" style="margin-top:8px">
+        <span class="kw">const</span> <span class="vr">role</span> <span class="op">=</span> <span class="str">"Full-Stack Dev"</span><span class="pun">;</span>
       </div>
-      <div class="col-lg-5 text-center" data-aos="fade-left">
-        {% if profile and profile.photo %}
-          <img src="{{ profile.photo.url }}" alt="{{ profile.name }}" class="hero-photo" />
-        {% else %}
-          <div class="hero-photo-placeholder">
-            <i class="bi bi-person-circle"></i>
-          </div>
-        {% endif %}
+      <div class="hero-tagline">
+        <span class="kw">const</span> <span class="vr">framework</span> <span class="op">=</span> <span class="str">"Django"</span><span class="pun">;</span>
+      </div>
+      <div class="hero-tagline">
+        <span class="kw">const</span> <span class="vr">status</span> <span class="op">=</span> <span class="str">"<span style="color:#6bcb77">●</span> Available"</span><span class="pun">;</span>
+      </div>
+      <div class="hero-buttons">
+        <a href="{% url 'projects' %}" class="btn-vsc btn-primary-vsc">▶ View Projects</a>
+        <a href="{% url 'contact' %}" class="btn-vsc btn-outline-vsc">⌘ Contact Me</a>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ── Quick Stats ────────────────────────────────────────────────────────── -->
-<section class="stats-section py-4">
-  <div class="container">
-    <div class="row text-center g-4">
-      <div class="col-6 col-md-3"><div class="stat-card"><h3 class="stat-number">3+</h3><p>Projects</p></div></div>
-      <div class="col-6 col-md-3"><div class="stat-card"><h3 class="stat-number">ITS 305</h3><p>Course</p></div></div>
-      <div class="col-6 col-md-3"><div class="stat-card"><h3 class="stat-number">Django</h3><p>Framework</p></div></div>
-      <div class="col-6 col-md-3"><div class="stat-card"><h3 class="stat-number">2026</h3><p>Year</p></div></div>
+    <div class="hero-photo-col">
+      {% if profile and profile.photo %}
+        <img src="{{ profile.photo.url }}" alt="{{ profile.name }}" class="hero-photo" />
+      {% else %}
+        <div class="hero-photo-placeholder">👤</div>
+      {% endif %}
     </div>
   </div>
-</section>
+</div>
 
-<!-- ── Featured Projects ─────────────────────────────────────────────────── -->
-{% if featured_projects %}
-<section class="section-pad">
-  <div class="container">
-    <div class="section-header text-center mb-5">
-      <h2 class="section-title">Featured Projects</h2>
-      <p class="section-subtitle">A glimpse of what I've built</p>
+<code class="code-line"></code>
+<code class="code-line"><span class="cm">/* Quick Stats */</span></code>
+<code class="code-line"></code>
+
+<div class="stats-row">
+  <div class="stat-box"><span class="stat-val">3+</span><div class="stat-lbl">Projects</div></div>
+  <div class="stat-box"><span class="stat-val" style="font-size:16px">ITS 305</span><div class="stat-lbl">Course</div></div>
+  <div class="stat-box"><span class="stat-val" style="font-size:16px">Django</span><div class="stat-lbl">Framework</div></div>
+  <div class="stat-box"><span class="stat-val">2026</span><div class="stat-lbl">Year</div></div>
+</div>
+
+<code class="code-line"></code>
+<code class="code-line"><span class="cm">/* Featured Projects ↓ */</span></code>
+<code class="code-line"></code>
+
+<div class="projects-grid">
+  {% for project in featured_projects %}
+  <div class="project-card">
+    <div class="project-card-header">
+      <span class="proj-icon">{% if forloop.counter == 1 %}🏨{% elif forloop.counter == 2 %}📊{% else %}🎓{% endif %}</span>
+      <span class="proj-title">{{ project.title }}</span>
     </div>
-    <div class="row g-4">
-      {% for project in featured_projects %}
-      <div class="col-md-4">
-        <div class="project-card h-100">
-          {% if project.image %}
-            <img src="{{ project.image.url }}" class="project-img" alt="{{ project.title }}" />
-          {% else %}
-            <div class="project-img-placeholder"><i class="bi bi-code-slash"></i></div>
-          {% endif %}
-          <div class="project-body">
-            <h5 class="project-title">{{ project.title }}</h5>
-            <p class="project-desc">{{ project.description|truncatewords:20 }}</p>
-            <div class="project-tech mb-3">
-              {% for tech in project.get_technologies_list %}
-                <span class="badge tech-badge">{{ tech }}</span>
-              {% endfor %}
-            </div>
-            <div class="d-flex gap-2">
-              {% if project.github_link %}
-                <a href="{{ project.github_link }}" class="btn btn-sm btn-outline-primary" target="_blank"><i class="bi bi-github me-1"></i>Code</a>
-              {% endif %}
-              {% if project.live_link %}
-                <a href="{{ project.live_link }}" class="btn btn-sm btn-primary" target="_blank"><i class="bi bi-box-arrow-up-right me-1"></i>Live</a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
+    {% if project.image %}
+    <img src="{{ project.image.url }}" class="project-card-img" alt="{{ project.title }}" />
+    {% endif %}
+    <div class="project-card-body">
+      <div class="proj-desc">{{ project.description|truncatewords:18 }}</div>
+      <div class="proj-techs">
+        {% for tech in project.get_technologies_list %}
+          <span class="tech-pill">{{ tech }}</span>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-    <div class="text-center mt-5">
-      <a href="{% url 'projects' %}" class="btn btn-outline-primary btn-lg">See All Projects <i class="bi bi-arrow-right ms-1"></i></a>
+      <div class="proj-links">
+        {% if project.github_link %}<a href="{{ project.github_link }}" class="proj-link" target="_blank">⌥ GitHub</a>{% endif %}
+        {% if project.live_link %}<a href="{{ project.live_link }}" class="proj-link" target="_blank">↗ Live</a>{% endif %}
+      </div>
     </div>
   </div>
-</section>
-{% endif %}
+  {% empty %}
+  <div class="cm" style="padding:16px">// No featured projects yet — add them in the Admin panel.</div>
+  {% endfor %}
+</div>
 
+<code class="code-line"></code>
+<code class="code-line"><span class="fn">console</span><span class="pun">.</span><span class="fn">log</span><span class="pun">(</span><span class="str">"Thanks for visiting! 🚀"</span><span class="pun">);</span></code>
 {% endblock %}

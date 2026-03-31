@@ -1,57 +1,44 @@
 {% extends 'portfolio/base.html' %}
-{% block title %}Projects — {{ profile.name }}{% endblock %}
+{% block title %}Projects{% endblock %}
+{% block breadcrumb %}projects.css{% endblock %}
+{% block sb_lang %}CSS{% endblock %}
 
 {% block content %}
-<section class="page-hero">
-  <div class="container text-center">
-    <h1 class="page-title">My Projects</h1>
-    <p class="page-subtitle">Things I've built and worked on</p>
-  </div>
-</section>
+<code class="code-line"><span class="cm">/* projects.css — Portfolio Showcase */</span></code>
+<code class="code-line"></code>
+<code class="code-line"><span class="cm">/* ── All Projects ── */</span></code>
+<code class="code-line"></code>
 
-<section class="section-pad">
-  <div class="container">
-    {% if projects %}
-    <div class="row g-4">
-      {% for project in projects %}
-      <div class="col-md-6 col-lg-4">
-        <div class="project-card h-100">
-          {% if project.image %}
-            <img src="{{ project.image.url }}" class="project-img" alt="{{ project.title }}" />
-          {% else %}
-            <div class="project-img-placeholder"><i class="bi bi-code-slash"></i></div>
-          {% endif %}
-          <div class="project-body">
-            <h5 class="project-title">{{ project.title }}</h5>
-            <p class="project-desc">{{ project.description }}</p>
-            <div class="project-tech mb-3">
-              {% for tech in project.get_technologies_list %}
-                <span class="badge tech-badge">{{ tech }}</span>
-              {% endfor %}
-            </div>
-            <div class="d-flex gap-2 mt-auto">
-              {% if project.github_link %}
-                <a href="{{ project.github_link }}" class="btn btn-sm btn-outline-primary" target="_blank">
-                  <i class="bi bi-github me-1"></i>GitHub
-                </a>
-              {% endif %}
-              {% if project.live_link %}
-                <a href="{{ project.live_link }}" class="btn btn-sm btn-primary" target="_blank">
-                  <i class="bi bi-box-arrow-up-right me-1"></i>Live Demo
-                </a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
+<div class="projects-grid">
+  {% for project in projects %}
+  <div class="project-card">
+    <div class="project-card-header">
+      <span class="proj-icon">🗂</span>
+      <span class="proj-title">{{ project.title }}</span>
     </div>
+    {% if project.image %}
+    <img src="{{ project.image.url }}" class="project-card-img" alt="{{ project.title }}" />
     {% else %}
-      <div class="text-center py-5">
-        <i class="bi bi-folder-x" style="font-size:3rem; color:var(--accent);"></i>
-        <p class="mt-3 text-muted">No projects yet. Add them in the Admin panel.</p>
-      </div>
+    <div class="project-img-placeholder">⌨</div>
     {% endif %}
+    <div class="project-card-body">
+      <div class="proj-desc">{{ project.description }}</div>
+      <div class="proj-techs">
+        {% for tech in project.get_technologies_list %}
+          <span class="tech-pill">{{ tech }}</span>
+        {% endfor %}
+      </div>
+      <div class="proj-links">
+        {% if project.github_link %}<a href="{{ project.github_link }}" class="proj-link" target="_blank">⌥ GitHub</a>{% endif %}
+        {% if project.live_link %}<a href="{{ project.live_link }}" class="proj-link" target="_blank">↗ Live</a>{% endif %}
+      </div>
+    </div>
   </div>
-</section>
+  {% empty %}
+  <div class="cm" style="padding:16px">// No projects yet — add them in the Admin panel.</div>
+  {% endfor %}
+</div>
+
+<code class="code-line"></code>
+<code class="code-line"><span class="cm">/* end projects.css */</span></code>
 {% endblock %}

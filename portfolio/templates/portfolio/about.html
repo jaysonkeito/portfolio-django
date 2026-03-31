@@ -1,39 +1,46 @@
 {% extends 'portfolio/base.html' %}
-{% block title %}About — {{ profile.name }}{% endblock %}
+{% block title %}About{% endblock %}
+{% block breadcrumb %}about.py{% endblock %}
+{% block sb_lang %}Python{% endblock %}
 
 {% block content %}
-<section class="page-hero">
-  <div class="container text-center">
-    <h1 class="page-title">About Me</h1>
-    <p class="page-subtitle">A little about who I am</p>
-  </div>
-</section>
+<code class="code-line"><span class="cm"># about.py — {{ profile.name|default:"Jayson" }}'s Profile Module</span></code>
+<code class="code-line"></code>
+<code class="code-line"><span class="kw">class</span> <span class="cls">Developer</span><span class="pun">:</span></code>
+<code class="code-line">    <span class="str">"""Aspiring developer from the Philippines."""</span></code>
+<code class="code-line"></code>
 
-<section class="section-pad">
-  <div class="container">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-4 text-center">
-        {% if profile and profile.photo %}
-          <img src="{{ profile.photo.url }}" alt="{{ profile.name }}" class="about-photo" />
-        {% else %}
-          <div class="about-photo-placeholder"><i class="bi bi-person-circle"></i></div>
-        {% endif %}
-        <div class="mt-4">
-          {% if profile.github %}<a href="{{ profile.github }}" target="_blank" class="social-link"><i class="bi bi-github"></i></a>{% endif %}
-          {% if profile.linkedin %}<a href="{{ profile.linkedin }}" target="_blank" class="social-link"><i class="bi bi-linkedin"></i></a>{% endif %}
-          {% if profile.email %}<a href="mailto:{{ profile.email }}" class="social-link"><i class="bi bi-envelope-fill"></i></a>{% endif %}
-        </div>
-      </div>
-      <div class="col-lg-8">
-        <h2 class="section-title mb-3">Hi, I'm <span class="text-accent">{{ profile.name|default:"Your Name" }}</span></h2>
-        <p class="lead mb-4">{{ profile.about|default:"Write your personal background here." }}</p>
-        <div class="career-card">
-          <h5><i class="bi bi-bullseye me-2 text-accent"></i>Career Goals</h5>
-          <p class="mb-0">{{ profile.career_goals|default:"Describe your career interests and goals here." }}</p>
-        </div>
-        <a href="{% url 'contact' %}" class="btn btn-primary mt-4">Get in Touch <i class="bi bi-arrow-right ms-1"></i></a>
-      </div>
+<div class="about-layout">
+  <div class="about-photo-col">
+    {% if profile and profile.photo %}
+      <img src="{{ profile.photo.url }}" alt="{{ profile.name }}" class="about-avatar" />
+    {% else %}
+      <div class="about-avatar-placeholder">👤</div>
+    {% endif %}
+    <div class="about-socials">
+      {% if profile.github %}<a href="{{ profile.github }}" target="_blank" class="social-btn">⎋ GitHub</a>{% endif %}
+      {% if profile.linkedin %}<a href="{{ profile.linkedin }}" target="_blank" class="social-btn">◈ LinkedIn</a>{% endif %}
+      {% if profile.email %}<a href="mailto:{{ profile.email }}" class="social-btn">✉ Email</a>{% endif %}
     </div>
   </div>
-</section>
+  <div class="about-info">
+    <div class="about-name">{{ profile.name|default:"Jayson" }}</div>
+    <div class="about-role"><span class="str">"{{ profile.tagline|default:"Aspiring Developer & Problem Solver" }}"</span></div>
+    <div class="about-text">{{ profile.about|default:"Write your personal background here." }}</div>
+    <div class="about-goals">
+      <div class="about-goals-title"><span class="kw">def</span> <span class="fn">career_goals</span><span class="pun">(self):</span></div>
+      {{ profile.career_goals|default:"Describe your career goals here." }}
+    </div>
+  </div>
+</div>
+
+<code class="code-line"></code>
+<code class="code-line">    <span class="kw">def</span> <span class="fn">get_contact</span><span class="pun">(</span><span class="vr">self</span><span class="pun">):</span></code>
+<code class="code-line">        <span class="kw">return</span> <span class="pun">{</span></code>
+<code class="code-line">            <span class="str">"github"</span><span class="pun">:</span> <span class="str">"{{ profile.github|default:"github.com/jayson" }}"</span><span class="pun">,</span></code>
+<code class="code-line">            <span class="str">"linkedin"</span><span class="pun">:</span> <span class="str">"{{ profile.linkedin|default:"linkedin.com/in/jayson" }}"</span><span class="pun">,</span></code>
+<code class="code-line">            <span class="str">"email"</span><span class="pun">:</span> <span class="str">"{{ profile.email|default:"jayson@example.com" }}"</span></code>
+<code class="code-line">        <span class="pun">}</span></code>
+<code class="code-line"></code>
+<code class="code-line"><span class="vr">me</span> <span class="op">=</span> <span class="cls">Developer</span><span class="pun">()</span></code>
 {% endblock %}

@@ -1,35 +1,30 @@
 {% extends 'portfolio/base.html' %}
-{% block title %}Skills — {{ profile.name }}{% endblock %}
+{% block title %}Skills{% endblock %}
+{% block breadcrumb %}skills.js{% endblock %}
+{% block sb_lang %}JavaScript{% endblock %}
 
 {% block content %}
-<section class="page-hero">
-  <div class="container text-center">
-    <h1 class="page-title">My Skills</h1>
-    <p class="page-subtitle">Technologies and tools I work with</p>
-  </div>
-</section>
+<code class="code-line"><span class="cm">// skills.js — Tech Stack Configuration</span></code>
+<code class="code-line"></code>
+<code class="code-line"><span class="kw">const</span> <span class="vr">skills</span> <span class="op">=</span> <span class="pun">{</span></code>
+<code class="code-line"></code>
 
-<section class="section-pad">
-  <div class="container">
-    {% if skills_by_category %}
-    <div class="skills-grid skills-grid--5">
-      {% for category, skill_list in skills_by_category.items %}
-      <div class="skill-card">
-        <h6 class="skill-card-title">{{ category|upper }}</h6>
-        <ul class="skill-list">
-          {% for skill in skill_list %}
-          <li class="skill-list-item">{{ skill.name }}</li>
-          {% endfor %}
-        </ul>
-      </div>
+<div class="skills-section">
+  {% for category, skill_list in skills_by_category.items %}
+  <div class="skill-category">
+    <div class="skill-cat-title">⚙ {{ category }}</div>
+    <div class="skill-tags">
+      {% for skill in skill_list %}
+      <span class="skill-tag"><span class="skill-dot"></span>{{ skill.name }}</span>
       {% endfor %}
     </div>
-    {% else %}
-      <div class="text-center py-5">
-        <i class="bi bi-tools" style="font-size:3rem; color:var(--accent);"></i>
-        <p class="mt-3 text-muted">No skills added yet. Add them via the Admin panel.</p>
-      </div>
-    {% endif %}
   </div>
-</section>
+  {% empty %}
+  <div class="cm" style="padding:16px">// No skills added yet — add them in the Admin panel.</div>
+  {% endfor %}
+</div>
+
+<code class="code-line"><span class="pun">};</span></code>
+<code class="code-line"></code>
+<code class="code-line"><span class="fn">module</span><span class="pun">.</span><span class="vr">exports</span> <span class="op">=</span> <span class="vr">skills</span><span class="pun">;</span></code>
 {% endblock %}

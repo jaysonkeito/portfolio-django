@@ -1,90 +1,81 @@
 {% extends 'portfolio/base.html' %}
-{% block title %}Contact — {{ profile.name }}{% endblock %}
+{% block title %}Contact{% endblock %}
+{% block breadcrumb %}contact.py{% endblock %}
+{% block sb_lang %}Python{% endblock %}
 
 {% block content %}
-<section class="page-hero">
-  <div class="container text-center">
-    <h1 class="page-title">Contact Me</h1>
-    <p class="page-subtitle">Let's connect!</p>
-  </div>
-</section>
+<code class="code-line"><span class="cm"># contact.py — Message Handler</span></code>
+<code class="code-line"></code>
+<code class="code-line"><span class="kw">from</span> <span class="cls">django.core.mail</span> <span class="kw">import</span> <span class="fn">send_mail</span></code>
+<code class="code-line"></code>
+<code class="code-line"><span class="kw">def</span> <span class="fn">contact</span><span class="pun">(</span><span class="vr">request</span><span class="pun">):</span></code>
+<code class="code-line">    <span class="cm">"""Send a message to {{ profile.name|default:"Jayson" }}."""</span></code>
+<code class="code-line"></code>
 
-<section class="section-pad">
-  <div class="container">
-    <div class="row g-5 justify-content-center">
-
-      <!-- Contact Info -->
-      <div class="col-lg-4">
-        <div class="contact-info-card">
-          <h4 class="mb-4">Get In Touch</h4>
-          {% if profile.email %}
-          <div class="contact-info-item">
-            <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
-            <div>
-              <p class="contact-label">Email</p>
-              <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
-            </div>
-          </div>
-          {% endif %}
-          {% if profile.github %}
-          <div class="contact-info-item">
-            <div class="contact-icon"><i class="bi bi-github"></i></div>
-            <div>
-              <p class="contact-label">GitHub</p>
-              <a href="{{ profile.github }}" target="_blank">{{ profile.github }}</a>
-            </div>
-          </div>
-          {% endif %}
-          {% if profile.linkedin %}
-          <div class="contact-info-item">
-            <div class="contact-icon"><i class="bi bi-linkedin"></i></div>
-            <div>
-              <p class="contact-label">LinkedIn</p>
-              <a href="{{ profile.linkedin }}" target="_blank">View Profile</a>
-            </div>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-
-      <!-- Contact Form -->
-      <div class="col-lg-7">
-        <div class="contact-form-card">
-          <h4 class="mb-4">Send a Message</h4>
-          <form method="post" novalidate>
-            {% csrf_token %}
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Name</label>
-                {{ form.name }}
-                {% if form.name.errors %}<div class="text-danger small">{{ form.name.errors }}</div>{% endif %}
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Email</label>
-                {{ form.email }}
-                {% if form.email.errors %}<div class="text-danger small">{{ form.email.errors }}</div>{% endif %}
-              </div>
-              <div class="col-12">
-                <label class="form-label">Subject</label>
-                {{ form.subject }}
-                {% if form.subject.errors %}<div class="text-danger small">{{ form.subject.errors }}</div>{% endif %}
-              </div>
-              <div class="col-12">
-                <label class="form-label">Message</label>
-                {{ form.message }}
-                {% if form.message.errors %}<div class="text-danger small">{{ form.message.errors }}</div>{% endif %}
-              </div>
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-lg w-100">
-                  <i class="bi bi-send me-2"></i>Send Message
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-
+<div class="contact-grid">
+  <div class="contact-info-panel">
+    <div class="contact-panel-title">⌘ Get In Touch</div>
+    {% if profile.email %}
+    <div class="contact-row">
+      <div class="contact-icon-box">✉</div>
+      <div><div class="contact-lbl">Email</div><div class="contact-val"><a href="mailto:{{ profile.email }}">{{ profile.email }}</a></div></div>
+    </div>
+    {% endif %}
+    {% if profile.github %}
+    <div class="contact-row">
+      <div class="contact-icon-box">⎋</div>
+      <div><div class="contact-lbl">GitHub</div><div class="contact-val"><a href="{{ profile.github }}" target="_blank">{{ profile.github }}</a></div></div>
+    </div>
+    {% endif %}
+    {% if profile.linkedin %}
+    <div class="contact-row">
+      <div class="contact-icon-box">◈</div>
+      <div><div class="contact-lbl">LinkedIn</div><div class="contact-val"><a href="{{ profile.linkedin }}" target="_blank">View Profile</a></div></div>
+    </div>
+    {% endif %}
+    {% if profile.facebook %}
+    <div class="contact-row">
+      <div class="contact-icon-box">▲</div>
+      <div><div class="contact-lbl">Facebook</div><div class="contact-val"><a href="{{ profile.facebook }}" target="_blank">View Profile</a></div></div>
+    </div>
+    {% endif %}
+    <div class="contact-footer-note">
+      <span class="cm"># Response time: usually within 24h</span><br>
+      <span class="cm"># Status: <span style="color:#6bcb77">● Open to opportunities</span></span>
     </div>
   </div>
-</section>
+
+  <div class="contact-form-panel">
+    <div class="contact-panel-title">▶ send_message()</div>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="form-lbl">name<span style="color:var(--syn-red)">*</span></label>
+        {{ form.name }}
+        {% if form.name.errors %}<div class="form-err">{{ form.name.errors }}</div>{% endif %}
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">email<span style="color:var(--syn-red)">*</span></label>
+        {{ form.email }}
+        {% if form.email.errors %}<div class="form-err">{{ form.email.errors }}</div>{% endif %}
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">subject</label>
+        {{ form.subject }}
+        {% if form.subject.errors %}<div class="form-err">{{ form.subject.errors }}</div>{% endif %}
+      </div>
+      <div class="form-group">
+        <label class="form-lbl">message<span style="color:var(--syn-red)">*</span></label>
+        {{ form.message }}
+        {% if form.message.errors %}<div class="form-err">{{ form.message.errors }}</div>{% endif %}
+      </div>
+      <button type="submit" class="btn-vsc btn-primary-vsc" style="width:100%;justify-content:center;">
+        ▶ Run send_mail()
+      </button>
+    </form>
+  </div>
+</div>
+
+<code class="code-line"></code>
+<code class="code-line">    <span class="cm"># return HttpResponse("Message sent!")</span></code>
 {% endblock %}
