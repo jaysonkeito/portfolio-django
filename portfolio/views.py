@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Profile, Skill, Project, Education
 from .forms import ContactForm
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 def get_profile():
